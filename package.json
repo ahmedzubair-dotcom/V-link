@@ -1,0 +1,17 @@
+{
+  "name": "v-link-monorepo",
+  "version": "1.0.0",
+  "description": "V-LINK Starter Kit",
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\" \"npm run start:ml\"",
+    "start:backend": "cd backend && npm run dev",
+    "start:frontend": "cd frontend && npm run dev",
+    "start:ml": "cd ml-service && call venv\\Scripts\\activate.bat && python app.py"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,34 @@
+services:
+  # Node.js Backend API
+  - type: web
+    name: vlink-backend
+    env: node
+    plan: free
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && node src/index.js"
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false # User must set this in the Render dashboard
+      - key: JWT_SECRET
+        sync: false # User must set this in the Render dashboard
+      - key: FRONTEND_URL
+        value: https://your-vercel-domain.vercel.app # Update this after frontend deploy
+      - key: ML_SERVICE_URL
+        value: https://vlink-ml-service.onrender.com # The internal URL of the ML service
+
+  # Python ML Service
+  - type: web
+    name: vlink-ml-service
+    env: python
+    plan: free
+    buildCommand: "cd ml-service && pip install -r requirements.txt"
+    startCommand: "cd ml-service && gunicorn app:app -b 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: PORT
+        value: 5001
