@@ -1,86 +1,52 @@
-<p align="center">
-  <h1 align="center">🔗 V-LINK</h1>
-  <p align="center">
-    <strong>A privacy-first social platform with AI-powered matching, real-time chat, and built-in safety.</strong>
-  </p>
-  <p align="center">
-    <a href="#features">Features</a> •
-    <a href="#tech-stack">Tech Stack</a> •
-    <a href="#getting-started">Getting Started</a> •
-    <a href="#project-structure">Project Structure</a> •
-    <a href="#api-endpoints">API Endpoints</a> •
-    <a href="#license">License</a>
-  </p>
-</p>
+# V-LINK
+
+A social platform I built for connecting people in a safe, privacy-respecting way. It pairs users through an ML-based matching system, lets them chat in real time, and has a moderation layer (GuardianShield) that keeps conversations safe — all without compromising anonymity.
 
 ---
 
-## ✨ Features
+## What it does
 
-| Feature | Description |
-|---|---|
-| **🤖 AI-Powered Matching** | ML service scores potential matches based on shared interests, department, and year |
-| **🛡️ GuardianShield** | Real-time content moderation that detects and blocks harmful messages automatically |
-| **💬 Real-Time Chat** | Socket.IO-powered instant messaging between matched users |
-| **📸 LiveID Verification** | Face detection via OpenCV to verify user identity during onboarding |
-| **👤 Anonymous Profiles** | Privacy-first design — users control what information is visible |
-| **🔐 JWT Authentication** | Secure token-based auth with bcrypt password hashing |
-| **🛑 Admin Dashboard** | Review flagged incidents, manage users, and monitor platform safety |
-| **📱 Responsive UI** | Beautiful, animated interface built with Tailwind CSS and Framer Motion |
+- **Smart Matching** — A Python ML service scores users based on shared interests, department, and year, so you see the most relevant people first.
+- **Real-Time Chat** — Once matched, users can message each other instantly via WebSockets (Socket.IO).
+- **Content Moderation (GuardianShield)** — Every message passes through an NLP-based moderation system before delivery. Harmful content gets flagged, blocked, or results in a ban depending on severity.
+- **Face Verification (LiveID)** — During onboarding, OpenCV checks that a real person is behind the account.
+- **Privacy-First Design** — Users choose what to share. Profiles stay anonymous until both people are comfortable.
+- **Admin Panel** — A dashboard to review flagged incidents and manage users.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech used
 
-### Frontend
-- **React 19** + **Vite 7** — Fast dev server and optimized builds
-- **Tailwind CSS 4** — Utility-first styling
-- **Framer Motion** — Smooth animations and transitions
-- **Socket.IO Client** — Real-time communication
-- **React Router DOM** — Client-side routing
-- **Axios** — HTTP client
-- **Lucide React** — Icon library
+**Frontend:** React 19, Vite 7, Tailwind CSS 4, Framer Motion, Socket.IO Client, React Router, Axios, Lucide icons
 
-### Backend
-- **Node.js** + **Express** — REST API server
-- **MongoDB** + **Mongoose** — Database and ODM
-- **Socket.IO** — WebSocket server for real-time chat
-- **JWT** — Token-based authentication
-- **bcryptjs** — Password hashing
+**Backend:** Node.js, Express, MongoDB (Mongoose), Socket.IO, JWT, bcryptjs
 
-### ML Service
-- **Python** + **Flask** — Lightweight API for ML endpoints
-- **OpenCV** — Face detection and verification
-- **NLTK** — Natural language processing for content moderation
-- **NumPy** — Numerical computations for match scoring
+**ML Service:** Python, Flask, OpenCV, NLTK, NumPy
 
 ---
 
-## 🚀 Getting Started
+## How to run it locally
 
-### Prerequisites
+You'll need **Node.js 18+**, **Python 3.9+**, and a **MongoDB** instance (local or [Atlas](https://www.mongodb.com/atlas)).
 
-- **Node.js** v18+
-- **Python** 3.9+
-- **MongoDB** (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
-
-### 1. Clone the repository
+### 1. Clone & install
 
 ```bash
 git clone https://github.com/ahmedzubair-dotcom/V-link.git
 cd V-link
+npm install
 ```
 
-### 2. Backend Setup
+### 2. Set up the backend
 
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file in the `backend/` directory:
+Create `backend/.env`:
 
-```env
+```
 PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
@@ -88,163 +54,107 @@ FRONTEND_URL=http://localhost:5173
 ML_SERVICE_URL=http://localhost:5001
 ```
 
-### 3. Frontend Setup
+### 3. Set up the frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 4. ML Service Setup
+### 4. Set up the ML service
 
 ```bash
 cd ml-service
 python -m venv venv
-
-# Windows
-venv\Scripts\activate
-# macOS/Linux
-source venv/bin/activate
-
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Mac/Linux
 pip install -r requirements.txt
 ```
 
-### 5. Run All Services
+### 5. Start everything
 
-From the root directory:
+From the root folder:
 
 ```bash
-npm install
 npm start
 ```
 
-This starts all three services concurrently:
+That boots up all three services:
+
 | Service | URL |
 |---|---|
-| Frontend | `http://localhost:5173` |
-| Backend API | `http://localhost:5000` |
-| ML Service | `http://localhost:5001` |
+| Frontend | http://localhost:5173 |
+| Backend | http://localhost:5000 |
+| ML Service | http://localhost:5001 |
 
 ---
 
-## 📁 Project Structure
+## Project layout
 
 ```
 V-link/
-├── frontend/                # React + Vite frontend
+├── frontend/                   # React app
+│   └── src/pages/
+│       ├── Home.jsx            # Landing page
+│       ├── Login.jsx           # Login
+│       ├── Register.jsx        # Sign up
+│       ├── Onboarding.jsx      # New user flow
+│       ├── ProfileSetup.jsx    # Profile config
+│       ├── Chat.jsx            # Messaging
+│       ├── LiveID.jsx          # Face verification
+│       └── Admin.jsx           # Admin dashboard
+│
+├── backend/                    # Express API
 │   └── src/
-│       ├── pages/
-│       │   ├── Home.jsx           # Landing page
-│       │   ├── Login.jsx          # User login
-│       │   ├── Register.jsx       # User registration
-│       │   ├── Onboarding.jsx     # New user onboarding flow
-│       │   ├── ProfileSetup.jsx   # Profile configuration
-│       │   ├── Chat.jsx           # Real-time messaging
-│       │   ├── LiveID.jsx         # Face verification
-│       │   └── Admin.jsx          # Admin dashboard
-│       └── ...
-├── backend/                 # Express API server
-│   └── src/
-│       ├── routes/
-│       │   ├── auth.js            # Login & registration
-│       │   ├── users.js           # User profiles
-│       │   ├── matches.js         # AI matching
-│       │   ├── chat.js            # Chat history
-│       │   └── admin.js           # Admin operations
-│       ├── models/
-│       │   ├── User.js            # User schema
-│       │   ├── Match.js           # Match schema
-│       │   ├── Message.js         # Chat message schema
-│       │   ├── Incident.js        # Flagged incident schema
-│       │   └── BannedDevice.js    # Banned device schema
-│       └── index.js               # Server entry point
-├── ml-service/              # Python ML microservice
-│   ├── app.py                     # Flask API server
-│   ├── matching.py                # Match scoring algorithm
-│   ├── moderation.py              # GuardianShield content moderation
-│   ├── verification.py            # Face detection (OpenCV)
-│   └── requirements.txt
-├── package.json             # Root package (concurrently)
-├── render.yaml              # Render deployment config
-└── README.md
+│       ├── routes/             # auth, users, matches, chat, admin
+│       ├── models/             # User, Match, Message, Incident, BannedDevice
+│       └── index.js            # Entry point + Socket.IO setup
+│
+├── ml-service/                 # Flask microservice
+│   ├── app.py                  # API server
+│   ├── matching.py             # Match scoring
+│   ├── moderation.py           # Content moderation
+│   └── verification.py         # Face detection
+│
+├── render.yaml                 # Render deploy config
+└── package.json                # Root scripts (runs all 3 services)
 ```
 
 ---
 
-## 🔌 API Endpoints
+## API overview
 
-### Auth
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/auth/register` | Register a new user |
-| `POST` | `/api/auth/login` | Login and receive JWT |
+**Auth** — `POST /api/auth/register`, `POST /api/auth/login`
 
-### Users
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/users/profile` | Get current user profile |
-| `PUT` | `/api/users/profile` | Update user profile |
+**Users** — `GET /api/users/profile`, `PUT /api/users/profile`
 
-### Matches
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/matches/potential` | Get AI-scored potential matches |
+**Matches** — `GET /api/matches/potential`
 
-### Chat
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/chat/:matchId` | Get chat history for a match |
+**Chat** — `GET /api/chat/:matchId`
 
-### Admin
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/admin/incidents` | Get all flagged incidents |
+**Admin** — `GET /api/admin/incidents`
 
-### ML Service
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/match` | Score potential matches |
-| `POST` | `/api/moderate` | Analyze message for threats |
-| `POST` | `/api/verify-face` | Detect face in image |
+**ML endpoints** — `POST /api/match`, `POST /api/moderate`, `POST /api/verify-face`
 
 ---
 
-## 🛡️ GuardianShield — How It Works
+## How GuardianShield works
 
-```
-User sends message → Socket.IO → ML Moderation API
-                                        │
-                    ┌───────────────────┼───────────────────┐
-                    │                   │                   │
-              Threat Level 0      Threat Level 1     Threat Level 2-3
-              (Safe)              (Warning)          (Blocked/Banned)
-                    │                   │                   │
-              ✅ Delivered        ⚠️ Delivered +      🚫 Hidden +
-                                   Warning shown      Incident logged
-```
+When a user sends a message, it goes through the ML moderation service before anyone sees it:
 
-- **Level 0** — Safe message, delivered normally
-- **Level 1** — Mild concern, delivered with a warning to the sender
-- **Level 2** — Harmful content, message blocked and incident logged
-- **Level 3** — Severe threat, user permanently banned
+- **Level 0 (Safe)** — Message goes through normally.
+- **Level 1 (Mild)** — Message goes through, but the sender gets a warning.
+- **Level 2 (Harmful)** — Message is blocked. An incident is logged for admin review.
+- **Level 3 (Severe)** — Message is blocked and the user is permanently banned.
+
+All of this happens in under a second, so the chat still feels instant.
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
-The project includes deployment configurations for:
-
-- **Render** — `render.yaml` for multi-service deployment
-- **Azure** — `azure_kudu_build.bat` for Azure App Service
+Configs are included for **Render** (`render.yaml`) and **Azure App Service** (`azure_kudu_build.bat`).
 
 ---
 
-## 📄 License
-
-This project is licensed under the [ISC License](https://opensource.org/licenses/ISC).
-
----
-
-<p align="center">
-  Built with ❤️ by <a href="https://github.com/ahmedzubair-dotcom">ahmedzubair-dotcom</a>
-</p>
+Built by [ahmedzubair-dotcom](https://github.com/ahmedzubair-dotcom)
